@@ -3,6 +3,8 @@ API's for a Car Rental Agency
 
 PostMan Collection - https://www.getpostman.com/collections/8dd6e065bda5924c7780
 
+EC2 Ip - ec2-3-130-78-21.us-east-2.compute.amazonaws.com
+
 ## Endpoints
 #### Authentication
 `/signup`
