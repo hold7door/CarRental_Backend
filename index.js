@@ -10,7 +10,7 @@ dotenv.config();
 //Database Setup for MongoDb Atlas
 var db_user = process.env.DB_USER;
 var db_pass = process.env.DB_PASS;
-console.log(db_user, db_pass);
+//console.log(db_user, db_pass);
 mongoose.connect(`mongodb+srv://${db_user}:${db_pass}@cluster0-3wux4.mongodb.net/test?retryWrites=true&w=majority`, 
     {useNewUrlParser : true, useUnifiedTopology : true}
 );
