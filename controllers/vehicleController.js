@@ -10,30 +10,34 @@ module.exports = (router) => {
 		var newVehicleCapacity = req.body.capacity;
 		var newVehicleRent = req.body.perDayRent;
 		var newVehicleCity = req.body.city;
-
+		if (newVehicleNumber && newVehicleModel && newVehicleCapacity && newVehicleRent && newVehicleCity){
 		//Check if there is another vehicle with same vehicle Number
-		Vehicle.findOne({vehicleNumber : newVehicleNumber}, (err, data)=>{
-			if (err) throw err;
-			if (!data){
-				// Create New Vehicle Object
-				var newVehicle = new Vehicle({
-					vehicleNumber : newVehicleNumber,
-					city : newVehicleCity,
-					model : newVehicleModel,
-					seatingCapacity : newVehicleCapacity,
-					rentPerDay : newVehicleRent,
-					bookingCustomerList : new Array()
-				});
-				newVehicle.save((err, data)=>{
-					if (err) throw err;
-					res.json({success : true, vehicleNumber : newVehicleNumber});
-				});
-			}
-			else{
-				// Duplicate Vehicle Number
-				res.json({success : false, message : "Vehicle with given Vehicle Number already exists"});
-			}
-		});
+			Vehicle.findOne({vehicleNumber : newVehicleNumber}, (err, data)=>{
+				if (err) throw err;
+				if (!data){
+					// Create New Vehicle Object
+					var newVehicle = new Vehicle({
+						vehicleNumber : newVehicleNumber,
+						city : newVehicleCity,
+						model : newVehicleModel,
+						seatingCapacity : newVehicleCapacity,
+						rentPerDay : newVehicleRent,
+						bookingCustomerList : new Array()
+					});
+					newVehicle.save((err, data)=>{
+						if (err) throw err;
+						res.json({success : true, vehicleNumber : newVehicleNumber});
+					});
+				}
+				else{
+					// Duplicate Vehicle Number
+					res.json({success : false, message : "Vehicle with given Vehicle Number already exists"});
+				}
+			});
+		}
+		else{
+			res.json({success : false, message : "required fields - Number, model, capacity, perDayRent or city"});
+		}
 	});
 
 	// Update vehicle data if it has no active bookings
