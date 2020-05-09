@@ -7,8 +7,8 @@ const mongoose = require('mongoose');
 
 
 //Database Setup for MongoDb Atlas
-var db_user = "arpit";
-var db_pass = "rentalagency";
+var db_user = process.env.DB_USER;
+var db_pass = process.env.DB_PASS;
 mongoose.connect(`mongodb+srv://${db_user}:${db_pass}@cluster0-3wux4.mongodb.net/test?retryWrites=true&w=majority`, 
     {useNewUrlParser : true, useUnifiedTopology : true}
 );
