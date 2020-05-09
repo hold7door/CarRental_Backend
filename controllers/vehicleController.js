@@ -49,7 +49,8 @@ module.exports = (router) => {
 				if (vdata.checkIfBooked() === true)
 					res.json({success : false, message : "Vehicle has active bookings. Can't update"});
 				else{
-					for (let dataItem in toUpdateFields){
+					let dataItem;
+					for (dataItem in toUpdateFields){
 						var fkey = dataItem;
 						var fval = toUpdateFields[fkey];
 						//console.log(fkey, fval);
