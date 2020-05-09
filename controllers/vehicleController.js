@@ -86,7 +86,7 @@ module.exports = (router) => {
 			if (err) throw err;
 			if (vdata){
 				if (vdata.checkIfBooked() === true){
-					res.json({success : false, message : "Vehicle has active bookings. Can't update"});
+					res.json({success : false, message : "Vehicle has active bookings. Can't delete"});
 				}
 				else{
 					Vehicle.deleteOne({vehicleNumber : toDeleteVehicle}, (error)=>{
