@@ -46,7 +46,7 @@ API's for a Car Rental Agency
 
 `/booking/show`
 
-    Show Vehicles in a city available for agiven period
+    Show Vehicles in a city available for a given period
     Method POST
     Required fields - city, issueDate, issueTime, returnDate, returnTime
     Option fields - rentLT (rent less than), model, capacity
