@@ -76,3 +76,5 @@ API's for a Car Rental Agency
 	"returnDate": "2020-06-02",
 	"returnTime": "22:30"
 	}
+
+*Note - Application currently does not support removing completed journeys from list of active booking of Vehicle
