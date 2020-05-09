@@ -1,5 +1,6 @@
 # CarRental_WhitePanda
 API's for a Car Rental Agency 
+PostMan Collection - https://www.getpostman.com/collections/8dd6e065bda5924c7780
 
 ## Endpoints
 #### Authentication
