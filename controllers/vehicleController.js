@@ -109,6 +109,14 @@ module.exports = (router) => {
 			}
 		});
 	});
+
+	// Show All Vehicle
+	router.get('/showall', (req, res)=>{
+		Vehicle.find({}, (err, vdata)=>{
+			if (err) throw err;
+			res.json({success : true, Vehicles : vdata});
+		});
+	});
 	return router;
 };
 
