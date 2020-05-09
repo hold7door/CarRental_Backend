@@ -2,29 +2,42 @@
 API's for a Car Rental Agency 
 
 ## Endpoints
+#### Authentication
+`/signup`
+	
+	Method - POST
+	Create account
+	Required fields - username, password
+`/login`
+	
+	Method - POST
+	Login and receive auth token
+	Required fields - username, password
+	
+
 #### Vehicle model operations. User authentication is required
-`/vehicle/add`
+`/vehicle/add?secret_token=`
 
     Add new Vehicle
     Method POST
     Required fields - Number, model, capacity, perDayRent and city
-`/vehicle/update`
+`/vehicle/update?secret_token=`
 
     Update vehicle info if it currently has no active bookings
     Method POST
     Required fields - Number
     Optional fields - newNumber, model, capacity, perDayRent and city
-`/vehicle/delete/:vnum`
+`/vehicle/delete/:vnum?secret_token=`
 
     Delete Vehicle it it currently has no active bookings
     Method DELETE
     Required fields - vnum in param (Vehicle Number)
-`/vehicle/active/:vnum`
+`/vehicle/active/:vnum?secret_token=`
 
     Show Active bookings of Vehicle
     Method GET
     Required param - vnum (Vehicle Number)
-`/vehicle/showall`
+`/vehicle/showall?secret_token=`
 
     Show All vehicles
     METHOD GET
@@ -53,6 +66,7 @@ API's for a Car Rental Agency
 
 	Book a vehicle
 	Method POST
+	All fields required
 	{
 	"Number": "UP1313",
 	"name": "Arpit Pathak",
