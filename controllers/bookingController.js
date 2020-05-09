@@ -11,7 +11,7 @@ function isPossibleInterval(intervals, issueDate, returnDate){
 	if (hi < 0)
 		return {"possible" : true, "index" : 0};
 	var result = hi + 1;
-	// Find  First interval whose returnDate is greater than requested issueDate
+	// Find  First interval whose returnDate is greater than requested issueDate using binay search
 	while (lo <= hi){
 		var mid = Math.floor((lo + hi) / 2);
 		//console.log(intervals, mid);
