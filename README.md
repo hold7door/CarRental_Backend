@@ -48,6 +48,8 @@ EC2 Ip - ec2-3-130-78-21.us-east-2.compute.amazonaws.com
 
 #### Customer vehicle booking operations. Authentication not required
 
+*A vehicle can not be booked until 6hrs after completing its previous journey*
+
 `/booking/show`
 
     Show Vehicles in a city available for a given period
