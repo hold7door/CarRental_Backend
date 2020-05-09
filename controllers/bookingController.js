@@ -119,48 +119,53 @@ module.exports = (router) => {
 			// Find Vehicle
 			Vehicle.findOne({vehicleNumber : vehicleNum}).populate('bookingCustomerList').exec((err, vdata)=>{
 				if (err) throw err;
-				var issueDate = req.body.issueDate;
-				var issueTime = req.body.issueTime;
-				var returnDate = req.body.returnDate;
-				var returnTime = req.body.returnTime;
-				var cName = req.body.name;
-				var cPhone = req.body.phone;
-				// Required Fields
-				if (issueDate && issueTime && returnDate && returnTime && cName && cPhone){
-					var issueString = issueDate + "T" + issueTime;
-					var returnString = returnDate + "T" + returnTime;
-					var issueDateOb = new Date(issueString);
-					var returnDateOb = new Date(returnString);
-					issueDateOb.setTime(issueDateOb.getTime() - issueDateOb.getTimezoneOffset()*60*1000);
-					returnDateOb.setTime(returnDateOb.getTime() - returnDateOb.getTimezoneOffset()*60*1000);
-					// Check if Vehicle is available for given period
-					var ifPossible = isPossibleInterval(vdata.bookingCustomerList, issueDateOb, returnDateOb);
-					if (ifPossible["possible"] === true){
-						// Create new Customer
-						var newCustomer = new Customer({
-							name : cName,
-							phone : cPhone,
-							vehicleId : vdata._id,
-							issueDateTime : issueDateOb,
-							returnDateTime : returnDateOb
-						});
-						newCustomer.save((error, cdata)=>{
-							if (error) throw error;
-							var atIndex = ifPossible['index'];
-							// Add Customer Id to vehicle booking list at index returned to maintain sort order
-							vdata.bookingCustomerList.splice(atIndex, 0, cdata._id);
-							vdata.save((er)=>{
-								if (er) throw er;
-								res.json({success : true, Name : cName, Phone : cPhone, vehicleNumber : vdata.vehicleNumber, IssueDate : issueDate, IssueTime : issueTime, ReturnDate : returnDate, ReturnTime : returnTime});
+				if (vdata){
+					var issueDate = req.body.issueDate;
+					var issueTime = req.body.issueTime;
+					var returnDate = req.body.returnDate;
+					var returnTime = req.body.returnTime;
+					var cName = req.body.name;
+					var cPhone = req.body.phone;
+					// Required Fields
+					if (issueDate && issueTime && returnDate && returnTime && cName && cPhone){
+						var issueString = issueDate + "T" + issueTime;
+						var returnString = returnDate + "T" + returnTime;
+						var issueDateOb = new Date(issueString);
+						var returnDateOb = new Date(returnString);
+						issueDateOb.setTime(issueDateOb.getTime() - issueDateOb.getTimezoneOffset()*60*1000);
+						returnDateOb.setTime(returnDateOb.getTime() - returnDateOb.getTimezoneOffset()*60*1000);
+						// Check if Vehicle is available for given period
+						var ifPossible = isPossibleInterval(vdata.bookingCustomerList, issueDateOb, returnDateOb);
+						if (ifPossible["possible"] === true){
+							// Create new Customer
+							var newCustomer = new Customer({
+								name : cName,
+								phone : cPhone,
+								vehicleId : vdata._id,
+								issueDateTime : issueDateOb,
+								returnDateTime : returnDateOb
 							});
-						});
+							newCustomer.save((error, cdata)=>{
+								if (error) throw error;
+								var atIndex = ifPossible['index'];
+								// Add Customer Id to vehicle booking list at index returned to maintain sort order
+								vdata.bookingCustomerList.splice(atIndex, 0, cdata._id);
+								vdata.save((er)=>{
+									if (er) throw er;
+									res.json({success : true, Name : cName, Phone : cPhone, vehicleNumber : vdata.vehicleNumber, IssueDate : issueDate, IssueTime : issueTime, ReturnDate : returnDate, ReturnTime : returnTime});
+								});
+							});
+						}
+						else{
+							res.json({success : false, message : "Vehicle not available for given interval"});
+						}
 					}
 					else{
-						res.json({success : false, message : "Vehicle not available for given interval"});
+						res.json({success : false, message : "Fields required - issueDate, issueTime, returnDate, returnTime, Name and Phone Number"});
 					}
 				}
 				else{
-					res.json({success : false, message : "Fields required - issueDate, issueTime, returnDate, returnTime, Name and Phone Number"});
+					res.json({success : false, message : "Vehicle not found"});
 				}
 			});
 		}
