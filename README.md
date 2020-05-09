@@ -2,7 +2,7 @@
 API's for a Car Rental Agency 
 
 ## Endpoints
-### Vehicle model operations. User authentication is required
+#### Vehicle model operations. User authentication is required
 `/vehicle/add`
 
     Add new Vehicle
@@ -29,7 +29,7 @@ API's for a Car Rental Agency
     Show All vehicles
     METHOD GET
 
-### Customer vehicle booking operations. Authentication not required
+#### Customer vehicle booking operations. Authentication not required
 
 `/booking/show`
 
@@ -51,14 +51,14 @@ API's for a Car Rental Agency
     }
 `/booking/book`
 
-  Book a vehicle
-  Method POST
-  {
-    "Number": "UP1313",
-    "name": "Arpit Pathak",
-    "phone": "9999988888",
-    "issueDate": "2020-06-01",
-    "issueTime": "09:30",
-    "returnDate": "2020-06-02",
-    "returnTime": "22:30"
-  }
+	Book a vehicle
+	Method POST
+	{
+	"Number": "UP1313",
+	"name": "Arpit Pathak",
+	"phone": "9999988888",
+	"issueDate": "2020-06-01",
+	"issueTime": "09:30",
+	"returnDate": "2020-06-02",
+	"returnTime": "22:30"
+	}
