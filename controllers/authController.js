@@ -7,7 +7,7 @@ module.exports = (router) => {
 		passport.authenticate('signup', (err, user, info)=>{
 			if (err) {throw err};
 			if (!user){
-				res.json({message : "Duplicate username"});
+				res.json({message : "Missing field or Duplicate username"});
 			}
 			else{
 				//console.log(user);
