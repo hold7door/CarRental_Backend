@@ -4,7 +4,8 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const dotenv = require('dotenv');
+dotenv.config();
 
 //Database Setup for MongoDb Atlas
 var db_user = process.env.DB_USER;
