@@ -60,8 +60,8 @@ module.exports = (router) => {
 			
 			if (searchFilters){
 				for (let dataItem in searchFilters){
-					fkey = dataItem;
-					fval = searchFilters[fkey]; 
+					var fkey = dataItem;
+					var fval = searchFilters[fkey]; 
 					if (fkey === 'rentLT')
 						filterData['rentPerDay'] = { $lte : fval};
 					else if (fkey === 'model')

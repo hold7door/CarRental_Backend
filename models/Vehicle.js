@@ -6,8 +6,8 @@ const vehicleSchema = mongoose.Schema({
     vehicleNumber : {type : String},
     city : {type : String},
     model : {type : String},
-    seatingCapacity : {type : String},
-    rentPerDay : {type : String},
+    seatingCapacity : {type : Number},
+    rentPerDay : {type : Number},
     bookingCustomerList : [{type : mongoose.Schema.Types.ObjectId, ref : "Customer"}]
 });
 
