@@ -5,46 +5,51 @@ const Customer = require('../models/Customer');
 // Check interval [issueDate, returnDate] can be inserted into the list of non-overlaping intervals of "intervals" sorted by issueDate
 function isPossibleInterval(intervals, issueDate, returnDate){
 	//console.log(intervals, issueDate, returnDate);
-	var lo = 0;
-	var hi = intervals.length - 1;
-	//true if vehicle has no active bookings
-	if (hi < 0)
-		return {"possible" : true, "index" : 0};
-	var result = hi + 1;
-	// Find  First interval whose returnDate is greater than requested issueDate using binay search
-	while (lo <= hi){
-		var mid = Math.floor((lo + hi) / 2);
-		//console.log(intervals, mid);
-		if ((issueDate.getTime() - intervals[mid].returnDateTime.getTime()) > 0){
-			lo = mid + 1;
-		} 
-		else{
-			hi = mid - 1;
-			result = mid;
+	try{
+		var lo = 0;
+		var hi = intervals.length - 1;
+		//true if vehicle has no active bookings
+		if (hi < 0)
+			return {"possible" : true, "index" : 0};
+		var result = hi + 1;
+		// Find  First interval whose returnDate is greater than requested issueDate using binay search
+		while (lo <= hi){
+			var mid = Math.floor((lo + hi) / 2);
+			//console.log(intervals, mid);
+			if ((issueDate.getTime() - intervals[mid].returnDateTime.getTime()) > 0){
+				lo = mid + 1;
+			} 
+			else{
+				hi = mid - 1;
+				result = mid;
+			}
 		}
+		// Check if [issueDate, returnDate] can exist between intervals[result] and interval[result-1]. A 6hr Cooldown period is required after each journey of vehicle
+		var prevDateTime;
+		if (result > 0){
+			prevDateTime = intervals[result-1].returnDateTime;
+		}else{
+			prevDateTime = Date.now();
+			prevDateTime.setTime(prevDateTime.getTime() + prevDateTime.getTimezoneOffset()*60*1000);
+		}
+		// 6hr = 6*60*60*1000
+		var boundLeft = prevDateTime.getTime() + 21600000;
+		if (result === intervals.length){
+			boundRight = returnDate.getTime();
+		}
+		else{
+			var boundRight = intervals[result].issueDateTime.getTime() - 21600000;
+		}
+		//console.log(prevDateTime.getTime(), boundLeft, boundRight);
+		//console.log(issueDate.getTime(), returnDate.getTime());
+		if ((issueDate.getTime() - boundLeft >= 0) && (boundRight - returnDate.getTime() >= 0))
+			return {"possible" : true, "index" : result};
+		else
+			return {"possible" : false};
 	}
-	// Check if [issueDate, returnDate] can exist between intervals[result] and interval[result-1]. A 6hr Cooldown period is required after each journey of vehicle
-	var prevDateTime;
-	if (result > 0){
-		prevDateTime = intervals[result-1].returnDateTime;
-	}else{
-		prevDateTime = Date.now();
-		prevDateTime.setTime(prevDateTime.getTime() + prevDateTime.getTimezoneOffset()*60*1000);
+	catch(error){
+		return {"possible" : false}
 	}
-	// 6hr = 6*60*60*1000
-	var boundLeft = prevDateTime.getTime() + 21600000;
-	if (result === intervals.length){
-		boundRight = returnDate.getTime();
-	}
-	else{
-		var boundRight = intervals[result].issueDateTime.getTime() - 21600000;
-	}
-	//console.log(prevDateTime.getTime(), boundLeft, boundRight);
-	//console.log(issueDate.getTime(), returnDate.getTime());
-	if ((issueDate.getTime() - boundLeft >= 0) && (boundRight - returnDate.getTime() >= 0))
-		return {"possible" : true, "index" : result};
-	else
-		return {"possible" : false};
 }
 
 
