@@ -83,4 +83,4 @@ EC2 Ip - ec2-3-130-78-21.us-east-2.compute.amazonaws.com:4500
 	"returnTime": "22:30"
 	}
 
-*Note - Application currently does not support removing completed journeys from list of active booking of Vehicle*
+*Note - Completed journeys can be removed by running cron-job/removeFinished.js as cron job every 30min*
