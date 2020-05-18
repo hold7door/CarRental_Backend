@@ -25,14 +25,14 @@ function isPossibleInterval(intervals, issueDate, returnDate){
 			}
 		}
 		// Check if [issueDate, returnDate] can exist between intervals[result] and interval[result-1]. A 6hr Cooldown period is required after each journey of vehicle
-		var prevDateTime;
+		let prevDateTime;
 		if (result > 0){
 			prevDateTime = intervals[result-1].returnDateTime;
 		}else{
-			prevDateTime = Date.now();
-			prevDateTime.setTime(prevDateTime.getTime() + prevDateTime.getTimezoneOffset()*60*1000);
+			prevDateTime = new Date();
+			prevDateTime.setTime(prevDateTime.getTime() + 330*60*1000);
 		}
-		// 6hr = 6*60*60*1000
+		// 6hr = 6*60*60*1000 = 21600000
 		var boundLeft = prevDateTime.getTime() + 21600000;
 		if (result === intervals.length){
 			boundRight = returnDate.getTime();
@@ -82,12 +82,12 @@ module.exports = (router) => {
 					if (err) throw err;
 					//console.log(vdata);
 					var queryResult = [];
-					var issueString = searchFilters.issueDate + "T" + searchFilters.issueTime + "+05:30";
-					var returnString = searchFilters.returnDate + "T" + searchFilters.returnTime + "+05:30";
+					var issueString = searchFilters.issueDate + "T" + searchFilters.issueTime;
+					var returnString = searchFilters.returnDate + "T" + searchFilters.returnTime;
 					var issueDateOb = new Date(issueString);
-					var returnDateOb = new Date(returnString);
-					issueDateOb.setTime(issueDateOb.getTime() - issueDateOb.getTimezoneOffset()*60*1000);
-					returnDateOb.setTime(returnDateOb.getTime() - returnDateOb.getTimezoneOffset()*60*1000);
+					var returnDateOb = new Date(returnString); 
+					issueDateOb.setTime(issueDateOb.getTime());
+					returnDateOb.setTime(returnDateOb.getTime());
 					// For every Vehicle in City find those that can fit interval - [issueDate, returnDate]
 					for (let vh of vdata){
 						//console.log(vh);
@@ -137,8 +137,8 @@ module.exports = (router) => {
 						var returnString = returnDate + "T" + returnTime;
 						var issueDateOb = new Date(issueString);
 						var returnDateOb = new Date(returnString);
-						issueDateOb.setTime(issueDateOb.getTime() - issueDateOb.getTimezoneOffset()*60*1000);
-						returnDateOb.setTime(returnDateOb.getTime() - returnDateOb.getTimezoneOffset()*60*1000);
+						issueDateOb.setTime(issueDateOb.getTime());
+						returnDateOb.setTime(returnDateOb.getTime());
 						// Check if Vehicle is available for given period
 						var ifPossible = isPossibleInterval(vdata.bookingCustomerList, issueDateOb, returnDateOb);
 						if (ifPossible["possible"] === true){
